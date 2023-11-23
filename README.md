@@ -1,28 +1,27 @@
-# Create T3 App
+# Creek OCW - Cherry Creek High School Open Courseware
+## Description
+Welcome to Creek OCW (Open Courseware), an initiative by Cherry Creek High School to provide free and open educational resources. This platform hosts a variety of course materials, helping students and educators access quality educational content.
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Installation
+To set up Creek OCW on your local machine, follow these steps:
 
-## What's next? How do I make an app with this?
+```bash
+git clone https://github.com/your-username/creek-ocw.git
+cd creek-ocw
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+cp .env.example .env
+--- edit .env file with your own values ---
+bun install
+bun run dev
+```
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Contributing
+Contributions to Creek OCW are always welcome! Please read our CONTRIBUTING.md for guidelines on how to submit contributions.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
 
-## Learn More
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Acknowledgments
+Thanks to all the educators and students of Cherry Creek High School who have contributed their valuable time and knowledge to this project.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
