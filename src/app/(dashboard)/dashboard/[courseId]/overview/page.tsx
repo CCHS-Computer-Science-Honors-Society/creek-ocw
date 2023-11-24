@@ -37,7 +37,7 @@ export default async function Page(props: {
       </Card>
       <Card className="col-start-1 row-span-4 row-start-1">
         <CardHeader className="text-4xl font-bold">
-          Recent activity for {course?.name}
+          Recent activity for {course.name}
         </CardHeader>
       </Card>
     </div>
