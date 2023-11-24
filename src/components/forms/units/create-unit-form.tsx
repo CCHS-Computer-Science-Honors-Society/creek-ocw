@@ -1,0 +1,38 @@
+"use client";
+import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
+import { catchError } from "@/lib/utils";
+import { createUnit } from "@/server/api/actions/units";
+import { createUnitSchema } from "@/server/db/schema";
+import { useAction } from "next-safe-action/hook";
+import React from "react";
+import { toast } from "sonner";
+
+export const CreateUnitForm = (props: { courseId: string }) => {
+  const { courseId } = props;
+  const { execute } = useAction(createUnit, {
+    onSuccess: () => {
+      toast.success("Successfuly Created Unit");
+    },
+    onError: (err) => {
+      catchError(err);
+    },
+  });
+  return (
+    <div>
+      <AutoForm
+        formSchema={createUnitSchema.omit({
+          id: true,
+          courseId: true,
+        })}
+        onSubmit={(v) =>
+          execute({
+            ...v,
+            courseId,
+          })
+        }
+      >
+        <AutoFormSubmit />
+      </AutoForm>
+    </div>
+  );
+};
