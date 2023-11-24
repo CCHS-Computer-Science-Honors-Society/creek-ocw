@@ -23,7 +23,7 @@ import { type Permissions } from "../permissions";
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const mysqlTable = mysqlTableCreator(
-  (name) => `cherry-creek-opencw_${name}`,
+  (name) => `cchs-creek-opencw_${name}`,
 );
 
 export const users = mysqlTable("user", {
@@ -166,6 +166,10 @@ export const unitsRelations = relations(units, ({ one, many }) => ({
   course: one(course, { fields: [units.courseId], references: [course.id] }),
   lessons: many(lessons),
 }));
+
+export const createUnitSchema = createInsertSchema(units).omit({
+  createdAt: true,
+});
 
 export type Lesson = InferSelectModel<typeof lessons>;
 
