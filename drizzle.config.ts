@@ -8,5 +8,5 @@ export default {
   dbCredentials: {
     connectionString: env.DATABASE_URL,
   },
-  tablesFilter: ["creek-opencs_*"],
+  tablesFilter: ["creek-ocw*"],
 } satisfies Config;
