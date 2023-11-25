@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { db } from "@/server/db";
 import { notFound } from "next/navigation";
 import React from "react";
+import { Todo } from "./Todo";
 
 export default async function Page(props: {
   params: {
@@ -19,27 +20,33 @@ export default async function Page(props: {
     return notFound();
   }
 
+  //TODO: Add the TODO list here
   return (
-    <div className="grid grid-cols-2 grid-rows-4 gap-4 p-10">
-      <Card className="col-start-2 row-span-2 row-start-1">
-        <CardHeader className="text-4xl font-bold ">
-          Create a new lesson
-        </CardHeader>
-        <CardContent>
-          <CreateLesson courseId={courseId} />
-        </CardContent>
-      </Card>
-      <Card className="col-start-2 row-span-2 row-start-3">
-        <CardHeader className="text-4xl font-bold ">Create a Unit</CardHeader>
-        <CardContent>
-          <CreateUnitForm courseId={courseId} />
-        </CardContent>
-      </Card>
-      <Card className="col-start-1 row-span-4 row-start-1">
-        <CardHeader className="text-4xl font-bold">
-          Recent activity for {course.name}
-        </CardHeader>
-      </Card>
+    <div className="p-4">
+      <div className="mb-10 text-5xl font-bold">
+        Dashboard for {course.name}
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="rounded-radius col-span-1 shadow-lg md:col-span-2">
+          <Todo courseId={courseId} />
+        </div>
+        <Card className="rounded-radius border border-border shadow">
+          <CardHeader className="text-3xl font-bold text-accent-foreground">
+            Create a new lesson
+          </CardHeader>
+          <CardContent>
+            <CreateLesson courseId={courseId} />
+          </CardContent>
+        </Card>
+        <Card className="rounded-radius border border-border shadow">
+          <CardHeader className="text-3xl font-bold text-accent-foreground">
+            Create a Unit
+          </CardHeader>
+          <CardContent>
+            <CreateUnitForm courseId={courseId} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

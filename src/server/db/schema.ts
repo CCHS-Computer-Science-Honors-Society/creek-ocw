@@ -5,7 +5,7 @@ import {
   int,
   json,
   mysqlEnum,
-  mysqlTableCreator,
+  mysqlTable,
   primaryKey,
   text,
   timestamp,
@@ -13,7 +13,7 @@ import {
 } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { type AdapterAccount } from "next-auth/adapters";
-import { type z } from "zod";
+import { z } from "zod";
 import { type Permissions } from "../permissions";
 
 /**
@@ -22,9 +22,6 @@ import { type Permissions } from "../permissions";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const mysqlTable = mysqlTableCreator(
-  (name) => `cchs-creek-opencw_${name}`,
-);
 
 export const users = mysqlTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -117,6 +114,23 @@ export const subjects = mysqlTable("subject", {
   ]),
 });
 
+export const todo = mysqlTable("todo", {
+  id: int("id").autoincrement().primaryKey().notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  courseId: text("courseId").notNull(),
+});
+
+export const todoRelations = relations(todo, ({ one }) => ({
+  course: one(course, {
+    fields: [todo.courseId],
+    references: [course.id],
+  }),
+}));
+
 export const course = mysqlTable("course", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
@@ -134,6 +148,7 @@ export const courseRelations = relations(course, ({ many, one }) => ({
     references: [subjects.id],
   }),
   units: many(units),
+  todos: many(todo),
 }));
 export const lessons = mysqlTable("lesson", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -166,6 +181,20 @@ export const unitsRelations = relations(units, ({ one, many }) => ({
   course: one(course, { fields: [units.courseId], references: [course.id] }),
   lessons: many(lessons),
 }));
+
+export const createTodoSchema = createInsertSchema(todo).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const deleteTodoSchema = createInsertSchema(todo, {
+  id: z.number(),
+}).pick({
+  id: true,
+  courseId: true,
+});
+
+export type Todo = InferSelectModel<typeof todo>;
 
 export const createUnitSchema = createInsertSchema(units).omit({
   createdAt: true,
