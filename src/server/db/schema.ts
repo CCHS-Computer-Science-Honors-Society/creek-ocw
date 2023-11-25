@@ -5,7 +5,7 @@ import {
   int,
   json,
   mysqlEnum,
-  mysqlTable,
+  mysqlTableCreator,
   primaryKey,
   text,
   timestamp,
@@ -22,6 +22,8 @@ import { type Permissions } from "../permissions";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
+
+export const mysqlTable = mysqlTableCreator((table) => `creek-ocw_${table}`);
 
 export const users = mysqlTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -99,6 +101,7 @@ export const verificationTokens = mysqlTable(
 // subject: Biology, course: AP Biology, unit: Unit 1, lesson: Lesson 1
 export const subjects = mysqlTable("subject", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  image: text("image").default("/placeholder.jpg").notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -111,11 +114,13 @@ export const subjects = mysqlTable("subject", {
     "World Languages",
     "English",
     "Debate",
-  ]),
+  ])
+    .notNull()
+    .default("Computer Science"),
 });
 
 export const todo = mysqlTable("todo", {
-  id: int("id").autoincrement().primaryKey().notNull(),
+  id: int("id").autoincrement().primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description").notNull(),
   createdAt: timestamp("created_at")
@@ -139,6 +144,7 @@ export const course = mysqlTable("course", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   subjectId: text("subjectId").notNull(),
+  image: text("image").default("/placeholder.jpg").notNull(),
 });
 
 export const courseRelations = relations(course, ({ many, one }) => ({
@@ -160,6 +166,7 @@ export const lessons = mysqlTable("lesson", {
     .notNull(),
   courseId: text("courseId").notNull(),
   unitId: int("unitId").notNull(),
+  images: text("images").$type<string[]>(),
 });
 
 export const lessonsRelations = relations(lessons, ({ one }) => ({
@@ -182,6 +189,8 @@ export const unitsRelations = relations(units, ({ one, many }) => ({
   lessons: many(lessons),
 }));
 
+export type Subject = InferSelectModel<typeof subjects>;
+
 export const createTodoSchema = createInsertSchema(todo).omit({
   id: true,
   createdAt: true,
@@ -201,6 +210,8 @@ export const createUnitSchema = createInsertSchema(units).omit({
 });
 
 export type Lesson = InferSelectModel<typeof lessons>;
+
+export type Course = InferSelectModel<typeof course>;
 
 export const createLessonSchema = createInsertSchema(lessons).omit({
   createdAt: true,
