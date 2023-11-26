@@ -5,7 +5,8 @@ import TextAlign from "@tiptap/extension-text-align";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
-export default function EditorOutput(props: { content: any }) {
+export default function EditorOutput(props: { content: any; title: string }) {
+  const title = props.title || "hello world";
   const content = props.content || "hello world";
   const editor = useEditor({
     extensions: [StarterKit, TextAlign.configure({})],
@@ -13,5 +14,10 @@ export default function EditorOutput(props: { content: any }) {
     editable: false,
   });
 
-  return <EditorContent editor={editor} />;
+  return (
+    <div>
+      <h1 className="text-5xl">{title}</h1>
+      <EditorContent editor={editor} />;
+    </div>
+  );
 }
