@@ -4,7 +4,7 @@ import { type Subject, subjects } from "@/server/db/schema";
 import { and, inArray } from "drizzle-orm";
 import { filterColumn } from "@/lib/utils";
 import Image from "next/image";
-import Search from "@/components/search";
+import Search, { ComboboxDemo } from "@/components/search";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 
@@ -33,6 +33,9 @@ export default async function Home(props: {
     <div className="flex flex-col gap-10 p-20">
       <div className="flex flex-row justify-between">
         <Search />
+        <div>
+          <ComboboxDemo />
+        </div>
       </div>
       <div className="grid grid-rows-1 gap-10 md:grid-cols-2 md:grid-rows-2">
         {data.map((subject) => {
