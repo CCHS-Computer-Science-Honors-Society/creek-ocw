@@ -6,5 +6,5 @@ import React from "react";
  * @see httpa://github.com/ani-0/creek-ocw/issues/5
  * */
 export default function Page() {
-  return <div></div>;
+  return <div>Hello World</div>;
 }

@@ -1,11 +1,8 @@
-import { filterColumn } from "@/lib/utils";
 import { db } from "@/server/db";
-import { and } from "drizzle-orm";
-import { course } from "@/server/db/schema";
 import Image from "next/image";
 import React from "react";
 import { z } from "zod";
-import { Card } from "@/components/ui/card";
+import Link from "next/link";
 
 const searchParamsSchema = z.object({
   subjectId: z.string(),
@@ -30,8 +27,9 @@ export default async function Page(params: {
   return (
     <div className="flex h-screen items-center justify-center">
       {data.map((course) => (
-        <Card
+        <Link
           key={course.id}
+          href={`/courses/${course.id}`}
           className="flex w-2/3 flex-col bg-primary-foreground transition-transform duration-200 hover:scale-105 hover:bg-muted md:flex-row"
         >
           <div className="md:w-1/3">
@@ -64,7 +62,7 @@ export default async function Page(params: {
               </p>
             </div>
           </div>
-        </Card>
+        </Link>
       ))}
     </div>
   );
