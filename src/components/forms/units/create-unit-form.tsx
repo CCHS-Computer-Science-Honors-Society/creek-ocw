@@ -24,6 +24,11 @@ export const CreateUnitForm = (props: { courseId: string }) => {
           id: true,
           courseId: true,
         })}
+        fieldConfig={{
+          unitNumber: {
+            fieldType: "number",
+          },
+        }}
         onSubmit={(v) =>
           execute({
             ...v,
