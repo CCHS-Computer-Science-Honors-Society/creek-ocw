@@ -7,7 +7,8 @@
   - [Acknowledgments](#acknowledgments)
 <!--toc:end-->
 # Creek OCW - Cherry Creek High School Open Courseware
-
+## Discliamer
+  We are currently in a VERY EARLY beta, we expect to be shipped by January 2024
 ## Description
 Welcome to Creek OCW (Open Courseware), an initiative by Cherry Creek High School to provide free and open educational resources. This platform hosts a variety of course materials, helping students and educators access quality educational content.
 
