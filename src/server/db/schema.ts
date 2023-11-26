@@ -156,18 +156,25 @@ export const courseRelations = relations(course, ({ many, one }) => ({
   units: many(units),
   todos: many(todo),
 }));
-export const lessons = mysqlTable("lesson", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  title: varchar("title", { length: 255 }).notNull(),
-  published: boolean("published").notNull().default(true),
-  content: json("content"),
-  createdAt: timestamp("created_at")
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  courseId: text("courseId").notNull(),
-  unitId: int("unitId").notNull(),
-  images: text("images").$type<string[]>(),
-});
+
+export const lessons = mysqlTable(
+  "lesson",
+  {
+    id: varchar("id", { length: 255 }).notNull(),
+    title: varchar("title", { length: 255 }).notNull(),
+    published: boolean("published").notNull().default(true),
+    content: json("content"),
+    createdAt: timestamp("created_at")
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    courseId: varchar("courseId", { length: 255 }).notNull(),
+    unitId: int("unitId").notNull(),
+    images: text("images").$type<string[]>(),
+  },
+  (lesson) => ({
+    pk: primaryKey(lesson.id, lesson.courseId),
+  }),
+);
 
 export const lessonsRelations = relations(lessons, ({ one }) => ({
   course: one(course, { fields: [lessons.courseId], references: [course.id] }),
@@ -176,6 +183,7 @@ export const lessonsRelations = relations(lessons, ({ one }) => ({
 
 export const units = mysqlTable("unit", {
   id: int("id").primaryKey().autoincrement().notNull(),
+  unitNumber: int("unitNumber").notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   description: text("description"),
   createdAt: timestamp("created_at")
@@ -205,7 +213,9 @@ export const deleteTodoSchema = createInsertSchema(todo, {
 
 export type Todo = InferSelectModel<typeof todo>;
 
-export const createUnitSchema = createInsertSchema(units).omit({
+export const createUnitSchema = createInsertSchema(units, {
+  unitNumber: z.number(),
+}).omit({
   createdAt: true,
 });
 
