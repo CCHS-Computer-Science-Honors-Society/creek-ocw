@@ -22,7 +22,6 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TopBar } from "./TopBar";
 
 export const EditorPage = (props: {
   post: Pick<Lesson, "id" | "title" | "content" | "published">;
@@ -48,7 +47,6 @@ export const EditorPage = (props: {
     startTransition(() => {
       try {
         const title = data.title;
-        void editLesson(editor!.getJSON(), title, post.id);
         toast.success("Saved!");
       } catch (error) {
         catchError(error);
@@ -81,34 +79,6 @@ export const EditorPage = (props: {
         </div>
         <div className="prose prose-stone dark:prose-invert mx-auto w-[800px]">
           <div>
-            <FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
-              <button
-                onClick={() =>
-                  editor.chain().focus().toggleHeading({ level: 1 }).run()
-                }
-                className={
-                  editor.isActive("heading", { level: 1 }) ? "is-active" : ""
-                }
-              >
-                h1
-              </button>
-              <button
-                onClick={() =>
-                  editor.chain().focus().toggleHeading({ level: 2 }).run()
-                }
-                className={
-                  editor.isActive("heading", { level: 2 }) ? "is-active" : ""
-                }
-              >
-                h2
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleBulletList().run()}
-                className={editor.isActive("bulletList") ? "is-active" : ""}
-              >
-                bullet list
-              </button>
-            </FloatingMenu>
             <TextareaAutosize
               autoFocus
               id="title"
@@ -117,7 +87,6 @@ export const EditorPage = (props: {
               className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
               {...register("title")}
             />
-            <TopBar editor={editor} />
             <EditorContent className="min-h-[500px]" editor={editor} />
           </div>
           <p className="text-sm text-gray-500">

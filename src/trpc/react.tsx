@@ -45,7 +45,7 @@ export function TRPCReactProvider(props: {
         <ThemeProvider attribute="class" defaultTheme="dark">
           {props.children}
         </ThemeProvider>
-        <Toaster />
+        <Toaster richColors />
       </api.Provider>
     </QueryClientProvider>
   );

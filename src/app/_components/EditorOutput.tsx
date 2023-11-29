@@ -16,8 +16,8 @@ export default function EditorOutput(props: { content: any; title: string }) {
 
   return (
     <div>
-      <h1 className="text-5xl">{title}</h1>
-      <EditorContent editor={editor} />;
+      <h1 className="text-5xl font-bold">{title}</h1>
+      <EditorContent editor={editor} />
     </div>
   );
 }
