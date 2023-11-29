@@ -164,6 +164,7 @@ export const lessons = mysqlTable(
     title: varchar("title", { length: 255 }).notNull(),
     published: boolean("published").notNull().default(true),
     content: json("content"),
+    position: int("position").default(1).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
