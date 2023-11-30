@@ -1,17 +1,16 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import TextAlign from "@tiptap/extension-text-align";
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import TextareaAutosize from "react-textarea-autosize";
 import { useEditor, EditorContent, FloatingMenu } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { editLesson } from "@/server/api/actions/lessons";
 import { catchError, cn } from "@/lib/utils";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
@@ -20,14 +19,22 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import React from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TopBar } from "./TopBar";
+import { api } from "@/trpc/react";
 
 export const EditorPage = (props: {
   post: Pick<Lesson, "id" | "title" | "content" | "published">;
 }) => {
   const { post } = props;
-  const [isPending, startTransition] = React.useTransition();
+  const editLesson = api.lessons.createLesson.useMutation({
+    onSuccess: () => {
+      toast.success("Saved!");
+    },
+    onError: (err) => {
+      catchError(err);
+    },
+  });
 
   const schema = z.object({
     title: z.string().min(0),
@@ -44,13 +51,10 @@ export const EditorPage = (props: {
   if (!editor || editor === undefined || editor === null) return <div></div>;
 
   function onSubmit(data: FormData) {
-    startTransition(() => {
-      try {
-        const title = data.title;
-        toast.success("Saved!");
-      } catch (error) {
-        catchError(error);
-      }
+    editLesson.mutate({
+      ...data,
+      id: post.id,
+      content: editor!.getJSON(),
     });
   }
 
@@ -64,6 +68,7 @@ export const EditorPage = (props: {
               className={cn(buttonVariants({ variant: "ghost" }))}
             >
               <>
+                {" "}
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 Back
               </>
@@ -73,11 +78,10 @@ export const EditorPage = (props: {
             </p>
           </div>
           <button type="submit" className={cn(buttonVariants())}>
-            {isPending && <Skeleton className="mr-2 h-4 w-4 animate-spin" />}
             <span>Save</span>
           </button>
         </div>
-        <div className="prose prose-stone dark:prose-invert mx-auto w-[800px]">
+        <div className="prose prose-stone mx-auto w-[800px] dark:prose-invert">
           <div>
             <TextareaAutosize
               autoFocus
@@ -87,6 +91,7 @@ export const EditorPage = (props: {
               className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
               {...register("title")}
             />
+            <TopBar editor={editor} />
             <EditorContent className="min-h-[500px]" editor={editor} />
           </div>
           <p className="text-sm text-gray-500">
