@@ -13,7 +13,7 @@ import {
 } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { type AdapterAccount } from "next-auth/adapters";
-import { type z } from "zod";
+import { z } from "zod";
 import { type Permissions } from "../permissions";
 
 /**
@@ -22,9 +22,8 @@ import { type Permissions } from "../permissions";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const mysqlTable = mysqlTableCreator(
-  (name) => `cherry-creek-opencw_${name}`,
-);
+
+export const mysqlTable = mysqlTableCreator((table) => `creek-ocw_${table}`);
 
 export const users = mysqlTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -102,6 +101,7 @@ export const verificationTokens = mysqlTable(
 // subject: Biology, course: AP Biology, unit: Unit 1, lesson: Lesson 1
 export const subjects = mysqlTable("subject", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  image: text("image").default("/placeholder.jpg").notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -114,8 +114,27 @@ export const subjects = mysqlTable("subject", {
     "World Languages",
     "English",
     "Debate",
-  ]),
+  ])
+    .notNull()
+    .default("Computer Science"),
 });
+
+export const todo = mysqlTable("todo", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  courseId: text("courseId").notNull(),
+});
+
+export const todoRelations = relations(todo, ({ one }) => ({
+  course: one(course, {
+    fields: [todo.courseId],
+    references: [course.id],
+  }),
+}));
 
 export const course = mysqlTable("course", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -125,6 +144,7 @@ export const course = mysqlTable("course", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   subjectId: text("subjectId").notNull(),
+  image: text("image").default("/placeholder.jpg").notNull(),
 });
 
 export const courseRelations = relations(course, ({ many, one }) => ({
@@ -134,18 +154,28 @@ export const courseRelations = relations(course, ({ many, one }) => ({
     references: [subjects.id],
   }),
   units: many(units),
+  todos: many(todo),
 }));
-export const lessons = mysqlTable("lesson", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  title: varchar("title", { length: 255 }).notNull(),
-  published: boolean("published").notNull().default(true),
-  content: json("content"),
-  createdAt: timestamp("created_at")
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  courseId: text("courseId").notNull(),
-  unitId: int("unitId").notNull(),
-});
+
+export const lessons = mysqlTable(
+  "lesson",
+  {
+    id: varchar("id", { length: 255 }).notNull(),
+    title: varchar("title", { length: 255 }).notNull(),
+    published: boolean("published").notNull().default(true),
+    content: json("content"),
+    position: int("position").default(1).notNull(),
+    createdAt: timestamp("created_at")
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    courseId: varchar("courseId", { length: 255 }).notNull(),
+    unitId: int("unitId").notNull(),
+    images: text("images").$type<string[]>(),
+  },
+  (lesson) => ({
+    pk: primaryKey(lesson.id, lesson.courseId),
+  }),
+);
 
 export const lessonsRelations = relations(lessons, ({ one }) => ({
   course: one(course, { fields: [lessons.courseId], references: [course.id] }),
@@ -154,6 +184,7 @@ export const lessonsRelations = relations(lessons, ({ one }) => ({
 
 export const units = mysqlTable("unit", {
   id: int("id").primaryKey().autoincrement().notNull(),
+  unitNumber: int("unitNumber").notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   description: text("description"),
   createdAt: timestamp("created_at")
@@ -167,7 +198,31 @@ export const unitsRelations = relations(units, ({ one, many }) => ({
   lessons: many(lessons),
 }));
 
+export type Subject = InferSelectModel<typeof subjects>;
+
+export const createTodoSchema = createInsertSchema(todo).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const deleteTodoSchema = createInsertSchema(todo, {
+  id: z.number(),
+}).pick({
+  id: true,
+  courseId: true,
+});
+
+export type Todo = InferSelectModel<typeof todo>;
+
+export const createUnitSchema = createInsertSchema(units, {
+  unitNumber: z.number(),
+}).omit({
+  createdAt: true,
+});
+
 export type Lesson = InferSelectModel<typeof lessons>;
+
+export type Course = InferSelectModel<typeof course>;
 
 export const createLessonSchema = createInsertSchema(lessons).omit({
   createdAt: true,

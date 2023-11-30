@@ -8,8 +8,10 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "@/env.mjs";
 import { db } from "@/server/db";
-import { mysqlTable, users } from "@/server/db/schema";
+import { mysqlTable } from "@/server/db/schema";
+
 import { type Permissions } from "./permissions";
+import { redirect } from "next/navigation";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -88,3 +90,11 @@ export const authOptions: NextAuthOptions = {
  * @see https://next-auth.js.org/configuration/nextjs
  */
 export const getAuth = () => getServerSession(authOptions);
+
+export const checkAuth = async () => {
+  const user = await getAuth();
+
+  if (!user) {
+    redirect(authOptions?.pages?.signIn ?? "/login");
+  }
+};
