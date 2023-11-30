@@ -13,7 +13,7 @@
 Welcome to Creek OCW (Open Courseware), an initiative by Cherry Creek High School to provide free and open educational resources. This platform hosts a variety of course materials, helping students and educators access quality educational content.
 
 ## Installation
-To set up Creek OCW on your local machine, follow these steps:
+To set up Creek OCW on your local machine, follow these steps, make sure you have pnpm installed on your computer:
 
 ```bash
 git clone https://github.com/your-username/creek-ocw.git
@@ -21,8 +21,8 @@ cd creek-ocw
 
 cp .env.example .env
 --- edit .env file with your own values ---
-bun install
-bun run dev
+pnpm install
+pnpm run dev
 ```
 
 ## Contributing
