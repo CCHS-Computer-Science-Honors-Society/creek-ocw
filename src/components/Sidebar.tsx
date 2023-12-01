@@ -17,6 +17,7 @@ export default function Sidebar(props: {
   isMobile?: boolean;
 }) {
   const { data, lessonId, courseId, isMobile } = props;
+
   return (
     <div
       className={
