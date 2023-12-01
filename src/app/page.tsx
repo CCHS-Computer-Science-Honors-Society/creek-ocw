@@ -7,7 +7,6 @@ import Image from "next/image";
 import Search, { ComboboxDemo } from "@/components/search";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
-import { getAuth } from "@/server/auth";
 
 const searchParamsSchema = z.object({
   name: z.string().optional(),
@@ -18,7 +17,6 @@ export default async function Home(props: {
   searchParams: Record<string, string | string[] | undefined>;
 }) {
   const { name, catagory } = searchParamsSchema.parse(props.searchParams);
-  const session = await getAuth();
 
   const catagories = (catagory?.split(".") as Subject["catagory"][]) ?? [];
 
