@@ -27,8 +27,15 @@ pnpm run dev
 
 ## Contributing
 Contributions to Creek OCW are always welcome! Please read our CONTRIBUTING.md for guidelines on how to submit contributions.
-
 ## License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 ## Acknowledgments
 Thanks to all the educators and students of Cherry Creek High School who have contributed their valuable time and knowledge to this project.
+<br />
+<br />
+
+<a href="https://github.com/CCHS-Computer-Science-Honors-Society/creek-ocw/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=CCHS-Computer-Science-Honors-Society/creek-ocw" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
