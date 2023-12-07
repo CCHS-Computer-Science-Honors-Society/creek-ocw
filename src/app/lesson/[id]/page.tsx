@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import EditorOutput from "@/app/_components/EditorOutput";
 import { db } from "@/server/db";
 import { notFound } from "next/navigation";
@@ -19,7 +20,7 @@ export default async function Page(props: {
   }
   return (
     <div>
-      <EditorOutput content={lesson.content}></EditorOutput>
+      <EditorOutput content={lesson.content} title={"itte"}></EditorOutput>
     </div>
   );
 }
