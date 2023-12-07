@@ -4,6 +4,7 @@ export type Permission = (typeof permissions)[number];
 export type Permissions = Permission[];
 
 export const course_permissions = [
+  "none",
   "read:users",
   "add:lessons",
   "add:tags",

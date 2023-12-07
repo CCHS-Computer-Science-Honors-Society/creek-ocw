@@ -27,7 +27,9 @@ const getCourse = cache(async (courseId: string) => {
     const units = await db.query.units.findMany({
       where: (units, { eq }) => eq(units.courseId, courseId),
       with: {
-        lessons: true,
+        lessons: {
+          orderBy: (lessons) => asc(lessons.position),
+        },
       },
       orderBy: (units) => asc(units.unitNumber),
     });
