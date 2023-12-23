@@ -22,7 +22,7 @@ export const hasCoursePermission = (
   courseId: string,
 ): boolean => {
   if (!session || !session.user) return false;
-  if (session.user.permissions.includes("activites")) return false;
+  if (session.user.permissions.includes("activites")) return true;
 
   // Find the course permissions for the given courseId
   const coursePermissions = session.user.courses
@@ -44,7 +44,7 @@ export const hasSubjectPermission = (
   subjectId: string,
 ): boolean => {
   if (!session || !session.user) return false;
-  if (session.user.permissions.includes("activites")) return false;
+  if (session.user.permissions.includes("activites")) return true;
   // Find the subject permissions for the given subjectId
   const subjectPermissions = session.user.subjects
     .filter((subject) => subject.id === subjectId)
