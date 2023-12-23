@@ -22,6 +22,7 @@ type CourseData = {
   value: string;
   label: string;
 };
+
 export function PickerForm(props: { frameworks: CourseData[] }) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
