@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const adminRouter = createTRPCRouter({
-  getUser: protectedProcedure
+  getUsers: protectedProcedure
     .input(
       z.object({
         name: z.string().optional(),

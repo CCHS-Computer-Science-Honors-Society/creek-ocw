@@ -23,7 +23,7 @@ async function getData() {
 }
 
 const fetch = cache(getData);
-const fetchUser = cache(api.admin.getUser.query);
+const fetchUsers = cache(api.admin.getUsers.query);
 
 export default async function Page(props: {
   searchParams: Record<string, string | string[] | undefined>;
@@ -31,7 +31,7 @@ export default async function Page(props: {
   const { searchParams } = props;
   const { name, email } = searchParamsSchema.parse(searchParams);
 
-  const data = await fetchUser({
+  const data = await fetchUsers({
     name: name,
     email: email,
   });
