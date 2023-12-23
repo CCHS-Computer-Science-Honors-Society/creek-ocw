@@ -6,6 +6,10 @@ export type Course = {
   value: string;
 };
 
+export type CourseData = {
+  id: string;
+  name: string;
+};
 export async function CreateLesson(props: { courseId: string }) {
   const units = await db.query.units.findMany({
     where: (units, { eq }) => eq(units.courseId, props.courseId), // Assuming courseId is a field in your units table

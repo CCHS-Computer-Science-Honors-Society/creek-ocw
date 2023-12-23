@@ -1,52 +1,28 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
+import { type CourseData, type Course } from "@/app/_components/create-lesson";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { handleError, cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { type RouterOutputs } from "@/trpc/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckIcon } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
-const comboboxOptions = [
-  {
-    value: "activites",
-    label: "Admin",
-  },
-  {
-    value: "basic",
-    label: "Default",
-  },
-];
+import Dropdown from "./_form/dropdown";
 
 export const UserForm = (props: {
-  data: RouterOutputs["admin"]["getUser"][0];
+  data: RouterOutputs["admin"]["getUsers"][0];
+  courses: CourseData[];
 }) => {
-  const { data } = props;
+  const { data, courses } = props;
   const { mutate } = api.admin.mutateUser.useMutation({
     onSuccess: () => {
       toast.success("User updated");
@@ -111,6 +87,8 @@ export const UserForm = (props: {
           />
         </form>
       </Form>
+
+      <Dropdown courses={courses} userId={data.id} />
     </div>
   );
 };
