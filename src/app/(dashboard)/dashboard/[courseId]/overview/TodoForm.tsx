@@ -1,6 +1,6 @@
 "use client";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
-import { catchError } from "@/lib/utils";
+import { handleError } from "@/lib/utils";
 import { createTodo } from "@/server/api/actions/todo";
 import { createTodoSchema } from "@/server/db/schema";
 import { useAction } from "next-safe-action/hook";
@@ -14,7 +14,7 @@ export default function TodoForm(props: { courseId: string }) {
       toast.success("Todo created");
     },
     onError: (err) => {
-      catchError(err);
+      handleError(err);
     },
   });
   return (

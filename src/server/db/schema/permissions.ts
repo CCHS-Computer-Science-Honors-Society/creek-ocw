@@ -1,4 +1,4 @@
-import { primaryKey, text, varchar } from "drizzle-orm/mysql-core";
+import { json, primaryKey, text, varchar } from "drizzle-orm/mysql-core";
 import { course, subjects, users } from "./index";
 import { relations } from "drizzle-orm";
 import { mysqlTable } from "./table";
@@ -16,10 +16,7 @@ export const subjectTracker = mysqlTable(
     subjectId: varchar("subjectId", {
       length: 255,
     }).notNull(),
-    permissions: text("permissions")
-      .$type<SubjectPermission[]>()
-      .default(["none"])
-      .notNull(),
+    permissions: json("permissions").$type<SubjectPermission[]>().notNull(),
   },
   (t) => ({
     pk: primaryKey(t.userId, t.subjectId),
@@ -46,10 +43,7 @@ export const courseTracker = mysqlTable(
     courseId: varchar("courseId", {
       length: 255,
     }).notNull(),
-    permissions: text("permissions")
-      .$type<CoursePermission[]>()
-      .default(["none"])
-      .notNull(),
+    permissions: json("permissions").$type<CoursePermission[]>().notNull(),
   },
   (t) => ({
     pk: primaryKey(t.userId, t.courseId),

@@ -11,7 +11,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import TextareaAutosize from "react-textarea-autosize";
 import { useEditor, EditorContent, FloatingMenu } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { catchError, cn } from "@/lib/utils";
+import { handleError, cn } from "@/lib/utils";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { type Lesson } from "@/server/db/schema";
@@ -27,12 +27,12 @@ export const EditorPage = (props: {
   post: Pick<Lesson, "id" | "title" | "content" | "published">;
 }) => {
   const { post } = props;
-  const editLesson = api.lessons.createLesson.useMutation({
+  const editLesson = api.lessons.editLesson.useMutation({
     onSuccess: () => {
       toast.success("Saved!");
     },
     onError: (err) => {
-      catchError(err);
+      handleError(err);
     },
   });
 

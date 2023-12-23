@@ -4,7 +4,6 @@ import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 
-import { catchError, cn, slugify } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -27,14 +26,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { handleError, cn, slugify } from "@/lib/utils";
 import { createLessonSchemaWithoutCourseId as FormSchema } from "@/server/db/schema";
 import { toast } from "sonner";
 
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { createLesson } from "@/server/api/actions/lessons";
 import React from "react";
 import { type Course } from "./create-lesson";
-import { createLesson } from "@/server/api/actions/lessons";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Input } from "@/components/ui/input";
 
 type Props = {
   units: Course[];
@@ -64,7 +64,7 @@ export default function CreateLessonForm({ units, courseId }: Props) {
         form.reset();
         toast.success("Lesson created!");
       } catch (error) {
-        catchError(error);
+        handleError(error);
       }
     });
   }

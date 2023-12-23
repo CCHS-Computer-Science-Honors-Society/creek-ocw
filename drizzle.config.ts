@@ -6,7 +6,7 @@ export default {
   schema: "./src/server/db/schema",
   driver: "mysql2",
   dbCredentials: {
-    connectionString: env.DATABASE_URL,
+    uri: env.DATABASE_URL,
   },
-  tablesFilter: ["creek-ocw*"],
+  tablesFilter: ["creek-ocw0*"],
 } satisfies Config;

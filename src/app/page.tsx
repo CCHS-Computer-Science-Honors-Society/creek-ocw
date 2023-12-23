@@ -49,7 +49,7 @@ export default async function Home(props: {
                     src={subject.image}
                     width={1000}
                     height={500}
-                    alt="no Image"
+                    alt={subject.id}
                   />
                 </CardContent>
                 <CardFooter className="justify-center text-center font-bold md:text-2xl">

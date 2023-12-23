@@ -7,4 +7,4 @@
 
 import { mysqlTableCreator } from "drizzle-orm/mysql-core";
 
-export const mysqlTable = mysqlTableCreator((table) => `creek-ocw_${table}`);
+export const mysqlTable = mysqlTableCreator((table) => `creek-ocw0_${table}`);

@@ -145,15 +145,9 @@ export const checkAuth = async (
     | SubjectPermission[],
 ) => {
   const user = await getAuth();
-
-  // match the type of permissionsRequired to call a func
-  if (permissionsRequired) {
-    if (typeof permissionsRequired === Permissions[]) {
-    } else if (typeof permissionsRequired === CoursePermission[]) {
-    } else if (typeof permissionsRequired === SubjectPermission[]) {
-    }
-  }
   if (!user) {
     redirect(authOptions?.pages?.signIn ?? "/login");
   }
+
+  return user;
 };
