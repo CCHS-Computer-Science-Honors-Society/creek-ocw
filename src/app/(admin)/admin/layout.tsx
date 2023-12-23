@@ -7,7 +7,6 @@ export default async function Layout(props: { children: React.ReactNode }) {
   const { children } = props;
   const auth = await checkAuth();
 
-  console.log(auth.user.permissions);
   if (!hasPermission(auth, ["activites"])) {
     redirect("/login");
   }
