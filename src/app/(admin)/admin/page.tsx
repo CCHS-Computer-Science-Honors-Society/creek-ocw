@@ -1,10 +1,9 @@
 import React, { cache } from "react";
 import { z } from "zod";
-import Search from "./search";
-import EmailSearch from "./EmailSearch";
 import { api } from "@/trpc/server";
 import { UserForm } from "./UserForm";
 import { db } from "@/server/db";
+import { NameSearch, EmailSearch } from "./_components/Search";
 
 const searchParamsSchema = z.object({
   name: z.string().optional(),
@@ -43,7 +42,7 @@ export default async function Page(props: {
       <SearchBar />
       <div className="flex flex-col p-10">
         {data.map((user) => {
-          return <UserForm courses={courses} data={user} key={user.id} />;
+          return <UserRow courses={courses} data={user} key={user.id} />;
         })}
       </div>
     </div>
@@ -52,8 +51,8 @@ export default async function Page(props: {
 
 const SearchBar = () => {
   return (
-    <div className="flex p-10">
-      <Search />
+    <div className="flex gap-4 p-10">
+      <NameSearch />
       <EmailSearch />
     </div>
   );
