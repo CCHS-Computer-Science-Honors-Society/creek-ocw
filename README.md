@@ -20,7 +20,7 @@ git clone https://github.com/your-username/creek-ocw.git
 cd creek-ocw
 
 cp .env.example .env
---- edit .env file with your own values ---
+--- edit .env file with your own values, see tiptap docs and authjs docs ---
 pnpm install
 pnpm run dev
 ```
