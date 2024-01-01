@@ -35,7 +35,7 @@ export const userRouter = createTRPCRouter({
             eq(courseTracker.courseId, courseId),
           ),
         );
-      revalidatePath(`/users/${userId}/courses`);
+      revalidatePath(`/user/${userId}/`);
     }),
 
   updateSubjectPermissions: protectedProcedure
@@ -66,4 +66,29 @@ export const userRouter = createTRPCRouter({
         );
       revalidatePath(`/users/${userId}/subjects`);
     }),
+
+  byId: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const { id } = input;
+      const user = await ctx.db.query.users.findFirst({
+        where: (user, { eq }) => eq(user.id, id),
+      });
+      return user;
+    }),
+
+  findAll: protectedProcedure.query(async ({ input, ctx }) => {
+    const users = await ctx.db.query.users.findMany({
+      columns: {
+        id: true,
+        name: true,
+      },
+    });
+
+    return users;
+  }),
 });
