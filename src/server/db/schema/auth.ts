@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm";
+import { type InferSelectModel, relations, sql } from "drizzle-orm";
 import {
   index,
   int,
@@ -24,6 +24,8 @@ export const users = mysqlTable("user", {
   image: varchar("image", { length: 255 }),
   roles: json("roles").$type<Permissions>().default(["basics"]).notNull(),
 });
+
+export type User = InferSelectModel<typeof users>;
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
