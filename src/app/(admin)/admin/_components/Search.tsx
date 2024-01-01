@@ -15,9 +15,9 @@ export function EmailSearch() {
   }
 
   return (
-    <div className="w-1/2">
+    <div className="w-full md:w-1/2">
       <Input
-        className="h-6 md:h-12"
+        className="h-[32px]  md:h-12"
         placeholder="Email: email@email.com"
         onChange={(event) => handleChange(event.target.value)}
       />
@@ -37,9 +37,9 @@ export function NameSearch() {
   }
 
   return (
-    <div className="w-1/2">
+    <div className="w-full md:w-1/2">
       <Input
-        className="h-6 md:h-12"
+        className="h-[32px] md:h-12"
         onChange={(event) => handleChange(event.target.value)}
         placeholder="Name: John Doe"
       />
