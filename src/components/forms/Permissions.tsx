@@ -12,7 +12,7 @@ import {
 } from "@/server/permissions";
 import { Button } from "../ui/button";
 
-export function ManagePermissions(props: {
+export function ManageCoursePermissions(props: {
   user: {
     userId: string;
     currentPermission: CoursePermission[];
