@@ -63,7 +63,7 @@
     "highlight.js": "^11.9.0",
     "lowlight": "^3.1.0",
     "lucide-react": "^0.292.0",
-    "next": "^14.0.1",
+    "next": "^14.0.4",
     "next-auth": "^4.24.4",
     "next-safe-action": "^5.1.2",
     "next-themes": "^0.2.1",
@@ -76,6 +76,7 @@
     "superjson": "^1.13.3",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
+    "vaul": "^0.8.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -92,7 +93,7 @@
     "dotenv-cli": "^7.3.0",
     "drizzle-kit": "0.20.6",
     "eslint": "^8.53.0",
-    "eslint-config-next": "^14.0.1",
+    "eslint-config-next": "^14.0.4",
     "mysql2": "^3.6.3",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",

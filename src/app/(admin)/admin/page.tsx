@@ -1,7 +1,7 @@
 import React, { cache } from "react";
 import { z } from "zod";
 import { api } from "@/trpc/server";
-import { UserForm } from "./UserForm";
+import { UserRow } from "./_components/UserRow";
 import { db } from "@/server/db";
 import { NameSearch, EmailSearch } from "./_components/Search";
 
@@ -42,7 +42,7 @@ export default async function Page(props: {
       <SearchBar />
       <div className="flex flex-col p-10">
         {data.map((user) => {
-          return <UserRow courses={courses} data={user} key={user.id} />;
+          return <UserRow courses={courses} user={user} key={user.id} />;
         })}
       </div>
     </div>
@@ -51,7 +51,7 @@ export default async function Page(props: {
 
 const SearchBar = () => {
   return (
-    <div className="flex gap-4 p-10">
+    <div className=" flex w-full flex-col gap-4 md:flex-row md:p-10">
       <NameSearch />
       <EmailSearch />
     </div>
