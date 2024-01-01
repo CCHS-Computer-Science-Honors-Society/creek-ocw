@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { type CourseData, type Course } from "@/app/_components/create-lesson";
 import {
   AlertDialog,
@@ -69,7 +70,9 @@ export function CourseAdminPopver(props: {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>Show Dialog</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
+        <Button variant={"outline"}>Grant User Admin for a Course</Button>
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -89,6 +92,11 @@ export function CourseAdminPopver(props: {
             <Button variant="outline">Cancel</Button>
           </AlertDialogCancel>
 
+          <AlertDialogAction>
+            <Link href={`/user/${userId}/?courseId=${courseId}`}>
+              Go to User Page
+            </Link>
+          </AlertDialogAction>
           <AlertDialogAction
             className={cn("bg-red-900 text-white")}
             disabled={isDisabled}

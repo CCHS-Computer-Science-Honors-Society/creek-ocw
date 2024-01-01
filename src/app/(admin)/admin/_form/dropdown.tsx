@@ -23,7 +23,7 @@ export default function Dropdown(props: {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <MoreVertical />
+          <Button>Grant User </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>User Options</DropdownMenuLabel>
