@@ -16,16 +16,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function catchError(err: unknown) {
+export function handleError(err: unknown) {
   if (err instanceof z.ZodError) {
     const errors = err.issues.map((issue) => {
       return issue.message;
     });
-    return toast(errors.join("\n"));
+    return toast.error(errors.join("\n"));
   } else if (err instanceof Error) {
-    return toast(err.message);
+    return toast.error(err.message);
   } else {
-    return toast("Something went wrong, please try again later.");
+    return toast.error("Something went wrong, please try again later.");
   }
 }
 

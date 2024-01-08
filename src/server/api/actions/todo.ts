@@ -2,7 +2,11 @@
 
 import { action } from "@/lib/actions";
 import { db } from "@/server/db";
-import { createTodoSchema, deleteTodoSchema, todo } from "@/server/db/schema";
+import {
+  createTodoSchema,
+  deleteTodoSchema,
+  todo,
+} from "@/server/db/schema/todo";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 

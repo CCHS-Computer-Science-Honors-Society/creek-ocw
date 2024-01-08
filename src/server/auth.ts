@@ -10,8 +10,22 @@ import { env } from "@/env.mjs";
 import { db } from "@/server/db";
 import { mysqlTable } from "@/server/db/schema";
 
-import { type Permissions } from "./permissions";
+import {
+  type CoursePermission,
+  type SubjectPermission,
+  type Permissions,
+} from "./permissions";
 import { redirect } from "next/navigation";
+
+type CoursePerms = {
+  id: string;
+  roles: CoursePermission[];
+};
+
+type SubjectPerms = {
+  id: string;
+  roles: SubjectPermission[];
+};
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -26,6 +40,8 @@ declare module "next-auth" {
       // ...other properties
       permissions: Permissions;
       // role: UserRole;
+      courses: CoursePerms[];
+      subjects: SubjectPerms[];
     } & DefaultSession["user"];
   }
 
@@ -50,6 +66,32 @@ export async function getPermissions(userId: string): Promise<Permissions> {
   return user.roles;
 }
 
+export async function getCoursePermissions(
+  userId: string,
+): Promise<CoursePerms[]> {
+  const courses = await db.query.courseTracker.findMany({
+    where: (courseTracker, { eq }) => eq(courseTracker.userId, userId),
+  });
+
+  return courses.map(({ courseId, permissions }) => ({
+    id: courseId,
+    roles: permissions,
+  }));
+}
+
+export async function getSubjectPermissions(
+  userId: string,
+): Promise<SubjectPerms[]> {
+  const subjects = await db.query.subjectTracker.findMany({
+    where: (subjectTracker, { eq }) => eq(subjectTracker.userId, userId),
+  });
+
+  return subjects.map(({ subjectId, permissions }) => ({
+    id: subjectId,
+    roles: permissions,
+  }));
+}
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -63,6 +105,8 @@ export const authOptions: NextAuthOptions = {
         ...session.user,
         id: user.id,
         permissions: await getPermissions(user.id),
+        courses: await getCoursePermissions(user.id),
+        subjects: await getSubjectPermissions(user.id),
       },
     }),
   },
@@ -94,10 +138,16 @@ export const authOptions: NextAuthOptions = {
  */
 export const getAuth = () => getServerSession(authOptions);
 
-export const checkAuth = async () => {
+export const checkAuth = async (
+  permissionsRequired?:
+    | Permissions[]
+    | CoursePermission[]
+    | SubjectPermission[],
+) => {
   const user = await getAuth();
-
   if (!user) {
     redirect(authOptions?.pages?.signIn ?? "/login");
   }
+
+  return user;
 };

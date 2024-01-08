@@ -15,7 +15,10 @@ export default function EditorOutput(props: { content: any; title: string }) {
   });
 
   return (
-    <div>
+    <div
+      className="prose prose-stone 
+        dark:prose-invert"
+    >
       <h1 className="text-5xl font-bold">{title}</h1>
       <EditorContent editor={editor} />
     </div>

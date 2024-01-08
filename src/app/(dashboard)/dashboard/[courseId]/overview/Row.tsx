@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { catchError } from "@/lib/utils";
+import { handleError } from "@/lib/utils";
 import { deleteTodo } from "@/server/api/actions/todo";
 import { type Todo } from "@/server/db/schema";
 import { useAction } from "next-safe-action/hook";
@@ -14,7 +14,7 @@ export function Rows(props: { todos: Todo[]; courseId: string }) {
       toast.success("Todo deleted successfully");
     },
     onError(error) {
-      catchError(error);
+      handleError(error);
     },
   });
   //FIX: Finish button not working

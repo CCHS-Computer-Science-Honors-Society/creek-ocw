@@ -24,7 +24,6 @@ export default async function Layout(props: {
   params: {
     courseId: string;
     lessonId: string;
-    unitId: string;
   };
   children: React.ReactNode;
 }) {

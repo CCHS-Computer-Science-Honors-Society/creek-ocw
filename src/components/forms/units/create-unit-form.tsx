@@ -1,6 +1,6 @@
 "use client";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
-import { catchError } from "@/lib/utils";
+import { handleError } from "@/lib/utils";
 import { createUnit } from "@/server/api/actions/units";
 import { createUnitSchema } from "@/server/db/schema";
 import { useAction } from "next-safe-action/hook";
@@ -14,7 +14,7 @@ export const CreateUnitForm = (props: { courseId: string }) => {
       toast.success("Successfuly Created Unit");
     },
     onError: (err) => {
-      catchError(err);
+      handleError(err);
     },
   });
   return (

@@ -6,7 +6,6 @@ import React from "react";
 export default async function Page(props: {
   params: {
     courseId: string;
-    unitId: string;
     lessonId: string;
   };
 }) {

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { lessons } from "@/server/db/schema";
+import { createLessonSchema, lessons } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 
 export const lessonsRouter = createTRPCRouter({
-  createLesson: protectedProcedure
+  editLesson: protectedProcedure
     .input(
       z.object({
         content: z.any(),
@@ -22,5 +22,12 @@ export const lessonsRouter = createTRPCRouter({
           title,
         })
         .where(eq(lessons.id, id));
+    }),
+  createLesson: protectedProcedure
+    .input(createLessonSchema)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(lessons).values({
+        ...input,
+      });
     }),
 });

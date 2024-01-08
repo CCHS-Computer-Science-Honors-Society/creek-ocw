@@ -20,7 +20,6 @@ export default async function Page(props: {
     return notFound();
   }
 
-  //TODO: Add the TODO list here
   return (
     <div className="p-4">
       <div className="mb-10 text-5xl font-bold">
